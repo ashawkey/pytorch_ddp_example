@@ -37,7 +37,7 @@ def main(rank, world_size, fold):
     os.environ['MASTER_ADDR'] = 'localhost'
     os.environ['MASTER_PORT'] = '12355'
     dist.init_process_group(backend='nccl', init_method='env://', world_size=world_size, rank=rank)
-    torch.cuda.set_device(rank)
+    torch.cuda.set_device(rank) # important! solved imbalanced memory at GPU0, ref: https://discuss.pytorch.org/t/how-to-balance-gpu-memories-in-ddp/93170
     print(f'[DDP] initialized for rank {rank} / {world_size}, fold {fold}')
     
     # load data
